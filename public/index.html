@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Calculator</title>
+</head>
+<body>
+    <h1>BMI Calculator</h1>
+    <form id="bmiForm">
+        <label for="weightPounds">Weight (pounds):</label>
+        <input type="text" id="weightPounds" name="weightPounds"><br><br>
+        <label for="heightInches">Height (inches):</label>
+        <input type="text" id="heightInches" name="heightInches"><br><br>
+        <input type="button" value="Calculate BMI" onclick="calculateBMI()">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function calculateBMI() {
+            const weight = document.getElementById('weightPounds').value;
+            const height = document.getElementById('heightInches').value;
+
+            // Using fetch to send data to your server
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ weightPounds: weight, heightInches: height }),
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('result').innerText = data;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
+
