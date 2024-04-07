@@ -20,7 +20,7 @@ workflows:
   build-and-test:
     jobs:
       - test-node
-      - cypress/run:
+      - -cypress-io/run:
           requires:
             - test-node
           install-browsers: true
