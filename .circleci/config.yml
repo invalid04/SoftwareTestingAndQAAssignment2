@@ -1,44 +1,43 @@
-# This config was automatically generated from your source code
-# Stacks detected: cicd:github-actions:.github/workflows,cicd:jenkins:node_modules/sshpk,deps:node:.,package_manager:yarn:,test:jest:
 version: 2.1
 orbs:
   node: circleci/node@5
+  # Use the Cypress CircleCI Orb for easy Cypress integration
+  cypress: cypress-io/cypress@1.28.0
 jobs:
   test-node:
-    # Install node dependencies and run tests
+    # Install node dependencies and run Jest tests
     executor: node/default
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: yarn
+          pkg-manager: npm
       - run:
-          command: yarn add jest-junit --ignore-workspace-root-check
-      - run:
-          name: Run tests
-          command: yarn run test --ci --runInBand --reporters=default --reporters=jest-junit
+          name: Run Jest tests
+          command: npm run test -- --ci --reporters=default --reporters=jest-junit
       - store_test_results:
           path: ./test-results/
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
+  test-e2e:
+    # Run Cypress tests
+    executor: cypress/base-14
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
-      - run:
-          name: found github actions config
-          command: ':'
-      - run:
-          name: found jenkins config
-          command: ':'
+          name: Start Server
+          command: npm start
+          background: true
+      - cypress/run:
+          # Configure according to your Cypress setup
+          store_artifacts: true
+          store_videos: true
 workflows:
   build-and-test:
     jobs:
       - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+      - test-e2e:
+          requires:
+            - test-node
+  # deploy job can be added here, following the pattern of the test jobs
