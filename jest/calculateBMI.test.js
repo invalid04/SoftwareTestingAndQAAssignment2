@@ -1,4 +1,4 @@
-const calculateBMI = require('./calculateBMI');
+const calculateBMI = require('../functions/calculateBMI');
 
 describe('BMI Calculation', () => {
   test('should calculate correct BMI for normal weight', () => {

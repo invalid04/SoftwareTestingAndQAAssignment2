@@ -1,5 +1,5 @@
 TN:
-SF:calculateBMI.js
+SF:functions\calculateBMI.js
 FN:1,calculateBMI
 FNF:1
 FNH:1
@@ -15,7 +15,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:categorizeBMI.js
+SF:functions\categorizeBMI.js
 FN:1,categorizeBMI
 FNF:1
 FNH:1

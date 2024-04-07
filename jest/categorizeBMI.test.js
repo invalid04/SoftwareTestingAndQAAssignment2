@@ -1,4 +1,4 @@
-const categorizeBMI = require('./categorizeBMI');
+const categorizeBMI = require('../functions/categorizeBMI');
 
 describe('BMI Categorization', () => {
   test('categorizes underweight correctly', () => {

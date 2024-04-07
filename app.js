@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const calculateBMI = require('./calculateBMI');
-const categorizeBMI = require('./categorizeBMI');
+const calculateBMI = require('./functions/calculateBMI');
+const categorizeBMI = require('./functions/categorizeBMI');
+
 const app = express();
 const port = 3000;
 
