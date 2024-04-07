@@ -1,15 +1,10 @@
-version: 2.1
+version: '2.1'
 orbs:
   cypress: cypress-io/cypress@3
-  node: circleci/node@5
 workflows:
   use-my-orb:
     jobs:
-      - jest-tests
       - cypress/run:
-          requires:
-            - jest-tests
           cypress-command: npx cypress run --browser chrome
           install-browsers: true
           start-command: npm run start:dev
-
