@@ -1,11 +1,10 @@
 version: 2.1
 orbs:
   node: circleci/node@5
-  # Use the Cypress CircleCI Orb for easy Cypress integration
   cypress: cypress-io/cypress@1.28.0
+
 jobs:
   test-node:
-    # Install node dependencies and run Jest tests
     executor: node/default
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
@@ -18,8 +17,8 @@ jobs:
           command: npm run test -- --ci --reporters=default --reporters=jest-junit
       - store_test_results:
           path: ./test-results/
+
   test-e2e:
-    # Run Cypress tests
     executor: cypress/base-14
     steps:
       - checkout
@@ -30,9 +29,9 @@ jobs:
           command: npm start
           background: true
       - cypress/run:
-          # Configure according to your Cypress setup
           store_artifacts: true
           store_videos: true
+
 workflows:
   build-and-test:
     jobs:
@@ -40,4 +39,4 @@ workflows:
       - test-e2e:
           requires:
             - test-node
-  # deploy job can be added here, following the pattern of the test jobs
+
