@@ -1,6 +1,8 @@
 version: '2.1'
 orbs:
   cypress: cypress-io/cypress@3
+  node: circleci/node@5.2.0 # Add the Node orb for easy Node.js environment setup
+
 workflows:
   use-my-orb:
     jobs:
@@ -8,3 +10,18 @@ workflows:
           cypress-command: npx cypress run --browser chrome
           install-browsers: true
           start-command: npm run start:dev
+      - jest_tests: # Define a new job for running Jest tests
+          requires:
+            - cypress/run # Optional: specify if you want Jest tests to run after Cypress tests
+
+jobs:
+  jest_tests: # Define the jest_tests job
+    executor:
+      name: node/default # Use the Node.js executor
+    steps:
+      - checkout # Check out the source code
+      - node/install-packages: # Install npm dependencies
+          pkg-manager: npm
+      - run: # Run your Jest tests
+          name: Run Jest Tests
+          command: npm test # Assumes your package.json has a test script for Jest
